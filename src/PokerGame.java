@@ -4,8 +4,8 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class PokerGame {
-    private ArrayList<Player> playerList;
-    private Deck gameDeck;
+    private final ArrayList<Player> playerList;
+    private final Deck gameDeck;
     private final Card[] communityCards;
     private int winningPot;
     private static Scanner scan = new Scanner(System.in);
@@ -84,7 +84,6 @@ public class PokerGame {
         }
 
         this.playersTotalBets = new int[playerList.size()];
-        //payOutBlinds();
     }
     public void addPlayer() {
         System.out.println("Enter player name:");
@@ -152,8 +151,6 @@ public class PokerGame {
         }
         return true;
     }
-
-
     public int getHighestBet() {
         int highestBet = 0;
         for (int i = 0; i < this.playersTotalBets.length; i++) {
@@ -264,7 +261,6 @@ public class PokerGame {
         }
 
     }
-
     public void handleWinners(ArrayList<Player> winningPlayers) {
         int tempWinnerAward = this.winningPot / winningPlayers.size();
         for (int i = 0; i < winningPlayers.size(); i++) {
@@ -272,7 +268,6 @@ public class PokerGame {
         }
         this.winningPot = 0;
     }
-
     public ArrayList<Player> royalFlush() {
         ArrayList<Player> winningPlayers = new ArrayList<Player>();
         for (int i = 0; i < this.playerList.size(); i++) {
@@ -322,42 +317,38 @@ public class PokerGame {
         }
         return winningPlayers;
     }
-
     public ArrayList<Player> straightFlush() {
         ArrayList<Player> winningPlayers = new ArrayList<Player>();
-        for (int i = 0; i < this.playerList.size(); i++) {
+        for (Player player : this.playerList) {
             int hearts = 0;
             int diamonds = 0;
             int spades = 0;
             int clubs = 0;
-            Player tempPlayer = this.playerList.get(i);
+            Player tempPlayer = player;
             if (tempPlayer.getIsInGame()) {
                 ArrayList<Integer> tempPlayerCards = new ArrayList<Integer>();
                 ArrayList<Card> tempPlayersCardsAll = tempPlayersCardsAll(tempPlayer);
-                for (int l = 0; l < tempPlayersCardsAll.size(); l++) {
-                    if (tempPlayersCardsAll.get(l).getSuit().contains("Hearts")) {
+                for (Card card : tempPlayersCardsAll) {
+                    if (card.getSuit().contains("Hearts")) {
                         hearts++;
                     }
-                    if (tempPlayersCardsAll.get(l).getSuit().contains("Diamonds")) {
+                    if (card.getSuit().contains("Diamonds")) {
                         diamonds++;
                     }
-                    if (tempPlayersCardsAll.get(l).getSuit().contains("Spades")) {
+                    if (card.getSuit().contains("Spades")) {
                         spades++;
                     }
-                    if (tempPlayersCardsAll.get(l).getSuit().contains("Clubs")) {
+                    if (card.getSuit().contains("Clubs")) {
                         clubs++;
                     }
                 }
                 if (hearts >= 5) {
                     tempPlayerCards = getValuesOfSuit(tempPlayersCardsAll, "Hearts");
-                }
-                else if (diamonds >= 5) {
+                } else if (diamonds >= 5) {
                     tempPlayerCards = getValuesOfSuit(tempPlayersCardsAll, "Diamonds");
-                }
-                else if (spades >= 5) {
+                } else if (spades >= 5) {
                     tempPlayerCards = getValuesOfSuit(tempPlayersCardsAll, "Spades");
-                }
-                else if (clubs >= 5) {
+                } else if (clubs >= 5) {
                     tempPlayerCards = getValuesOfSuit(tempPlayersCardsAll, "Clubs");
                 }
                 Collections.sort(tempPlayerCards);
@@ -368,7 +359,7 @@ public class PokerGame {
                     lowestValue = tempPlayerCards.get(0);
                     secondHighestValue = tempPlayerCards.get(1);
                     thirdHighestValue = tempPlayerCards.get(2);
-                    if(tempPlayerCards.contains(lowestValue + 1) &&
+                    if (tempPlayerCards.contains(lowestValue + 1) &&
                             tempPlayerCards.contains(lowestValue + 2) &&
                             tempPlayerCards.contains(lowestValue + 3) &&
                             tempPlayerCards.contains(lowestValue + 4)) {
@@ -376,7 +367,7 @@ public class PokerGame {
                     }
                 }
                 if (tempPlayerCards.size() >= 6) {
-                    if(tempPlayerCards.contains(secondHighestValue + 1) &&
+                    if (tempPlayerCards.contains(secondHighestValue + 1) &&
                             tempPlayerCards.contains(secondHighestValue + 2) &&
                             tempPlayerCards.contains(secondHighestValue + 3) &&
                             tempPlayerCards.contains(secondHighestValue + 4)) {
@@ -384,7 +375,7 @@ public class PokerGame {
                     }
                 }
                 if (tempPlayerCards.size() >= 7) {
-                    if(tempPlayerCards.contains(thirdHighestValue + 1) &&
+                    if (tempPlayerCards.contains(thirdHighestValue + 1) &&
                             tempPlayerCards.contains(thirdHighestValue + 2) &&
                             tempPlayerCards.contains(thirdHighestValue + 3) &&
                             tempPlayerCards.contains(thirdHighestValue + 4)) {
@@ -395,7 +386,6 @@ public class PokerGame {
         }
         return winningPlayers;
     }
-
     public ArrayList<Player> fourOfAKind() {
         ArrayList<Player> winningPlayers = new ArrayList<Player>();
         for (int i = 0; i < this.playerList.size(); i++) {
@@ -415,7 +405,6 @@ public class PokerGame {
         }
         return winningPlayers;
     }
-
     public ArrayList<Player> fullHouse() {
         ArrayList<Player> winningPlayers = new ArrayList<Player>();
         for (int i = 0; i < this.playerList.size(); i++) {
@@ -444,7 +433,6 @@ public class PokerGame {
         }
         return winningPlayers;
     }
-
     public ArrayList<Player> flush() {
         ArrayList<Player> winningPlayers = new ArrayList<Player>();
         for (int i = 0; i < this.playerList.size(); i++) {
@@ -476,7 +464,6 @@ public class PokerGame {
         }
         return winningPlayers;
     }
-
     public ArrayList<Player> straight() {
         ArrayList<Player> winningPlayers = new ArrayList<Player>();
         for (int i = 0; i < this.playerList.size(); i++) {
@@ -520,7 +507,6 @@ public class PokerGame {
         }
         return winningPlayers;
     }
-
     public ArrayList<Player> threeOfAKind() {
         ArrayList<Player> winningPlayers = new ArrayList<Player>();
         for (int i = 0; i < this.playerList.size(); i++) {
@@ -540,7 +526,6 @@ public class PokerGame {
         }
         return winningPlayers;
     }
-
     public ArrayList<Player> twoPair() {
         ArrayList<Player> winningPlayers = new ArrayList<Player>();
         for (int i = 0; i < this.playerList.size(); i++) {
@@ -564,7 +549,6 @@ public class PokerGame {
         }
         return winningPlayers;
     }
-
     public ArrayList<Player> onePair() {
         ArrayList<Player> winningPlayers = new ArrayList<Player>();
         for (int i = 0; i < this.playerList.size(); i++) {
@@ -584,7 +568,6 @@ public class PokerGame {
         }
         return winningPlayers;
     }
-
     public ArrayList<Player> highCard() {
         ArrayList<Player> winningPlayers = new ArrayList<Player>();
         int[][] sortedPlayersHoleCards = new int[this.playerList.size()][2];
@@ -642,7 +625,6 @@ public class PokerGame {
         }
         return result;
     }
-
     public ArrayList<Integer> getValuesOfAllCards(ArrayList<Card> playersCardsAll) {
         ArrayList<Integer> result = new ArrayList<Integer>();
         for (int i = 0; i < playersCardsAll.size(); i++) {
